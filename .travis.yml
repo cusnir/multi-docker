@@ -1,0 +1,33 @@
+language: node_js
+
+node_js:
+- 'lts/*'
+
+cache: npm
+
+os:
+  - linux
+dist: xenial
+
+sudo: true
+services:
+  - docker
+
+before_install:
+  - docker build -t andreic/docker-react -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true andreic/docker-react npm run test
+
+after_success:
+  - docker build -t andreic/multi-client ./client
+  - docker build -t andreic/multi-nginx ./nginx
+  - docker build -t andreic/multi-server ./server
+  - docker build -t andreic/multi-worker ./worker
+  # Login to the docker hub
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images ad push them to docker hub
+  - docker push andreic/multi-client
+  - docker push andreic/multi-nginx
+  - docker push andreic/multi-server
+  - docker push andreic/multi-worker
