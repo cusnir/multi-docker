@@ -1,0 +1,17 @@
+{
+  "version": "1.0.0",
+  "description": "Simulation project using postgres and Redis",
+  "keywords": [
+    "redis"
+  ],
+  "author": "Andrei Cușnir",
+  "license": "MIT",
+  "dependencies": {
+    "nodemon":"1.18.3",
+    "redis": "*"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon"
+  }
+}
