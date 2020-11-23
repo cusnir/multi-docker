@@ -31,3 +31,15 @@ after_success:
   - docker push andreic/multi-nginx
   - docker push andreic/multi-server
   - docker push andreic/multi-worker
+
+deploy:
+  provider: elasticbeanstalk
+  region: "eu-west-3"
+  app: "multi-docker"
+  env: "Multidocker-env"
+  bucket_name: "elasticbeanstalk-eu-west-3-248319281910"
+  bucket_path: "multidocker"
+  on:
+    branch: master
+  access_key_id: "$AWS_ACCESS_KEY"
+  secret_access_key: "$AWS_SECRET_KEY"
